@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Silver GWT jar package" default="build and package">
+
+	<property name="build.url" location="${basedir}/build"/>
+	<property name="jarfile.url" location="${build.url}/SilverGWT.jar"/>
+
+	<tstamp prefix="build-info">
+		<format property="current-date" pattern="d-MMMM-yyyy" locale="dk"/>
+		<format property="current-time" pattern="hh:mm:ss a z" locale="dk"/>
+	</tstamp>
+
+	<target name="build and package">
+		<delete dir="${build.url}"/>
+		<mkdir dir="${build.url}"/>
+		<javac srcdir="${basedir}/src" destdir="${build.url}"
+			includeAntRuntime="false"
+			includesfile="${basedir}/lib/gwt-user.jar"
+		/>
+		<copy todir="${build.url}">
+			<fileset dir="${basedir}/src"/>
+		</copy>
+		<jar destfile="${jarfile.url}" basedir="${build.url}" includes="**/*">
+			<manifest>
+				<attribute name="Built-By" value="Simon Svane"/>
+				<attribute name="Built-On" value="${build-info.current-date}"/>
+				<attribute name="Built-At" value="${build-info.current-time}"/>
+			</manifest>
+		</jar>
+	</target>
+
+</project>
